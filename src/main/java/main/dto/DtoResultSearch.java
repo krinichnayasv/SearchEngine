@@ -17,19 +17,15 @@ public class DtoResultSearch {
     private SearchByQuery searchByQuery;
 
 
-    public DtoResultSearch (String site, String query) throws SQLException, IOException {
+    public DtoResultSearch (String site, String query) throws SQLException, IOException, ExecutionException, InterruptedException {
         this.searchByQuery = ParseSiteOrPage.searchByQuery(site, query);
         this.result = true;
         this.data = searchByQuery.getResultOfSearch();
         this.count = data.size();
-        if(searchByQuery.getNewQuery() == null) {
-            this.message = "Result: success";
-        } else if (searchByQuery.getNewQuery() != null) {
-            this.message = "Запрос не дал результатов. Результативный запрос: \n"  + searchByQuery.getNewQuery().toString();
-        } else {
-        }
-
+        this.message = searchByQuery.getNewQuery() == null ? "Result: success"
+                : "Запрос не дал результатов. Результативный запрос: \n" + searchByQuery.getNewQuery().toString();
     }
+    
 
     public String getMessage() {
         return message;
